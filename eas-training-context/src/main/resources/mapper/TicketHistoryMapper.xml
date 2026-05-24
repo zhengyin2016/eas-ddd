@@ -4,12 +4,21 @@
 <mapper namespace="com.eas.trainingcontext.southbound.port.repository.TicketHistoryMapperPort">
 
     <insert id="save" parameterType="com.eas.trainingcontext.domain.tickethistory.entity.TicketHistory">
-        INSERT INTO training_ticket_history (id, ticket_id, operation, operated_at)
-        VALUES (#{id}, #{ticketId}, #{operationType}, #{operatedAt})
+        INSERT INTO training_ticket_history (id, ticket_id, operation_type,
+            state_transit_from, state_transit_to,
+            ticket_owner_id, ticket_owner_name,
+            operator_id, operator_name, operated_at)
+        VALUES (#{id}, #{ticketId}, #{operationType},
+            #{stateTransit.fromStatus}, #{stateTransit.toStatus},
+            #{ticketOwner.employeeId}, #{ticketOwner.name},
+            #{operator.employeeId}, #{operator.name}, #{operatedAt})
     </insert>
 
     <select id="findByTicketId" resultType="com.eas.trainingcontext.domain.tickethistory.entity.TicketHistory">
-        SELECT id, ticket_id, operation, operated_at
+        SELECT id, ticket_id, operation_type,
+            state_transit_from, state_transit_to,
+            ticket_owner_id, ticket_owner_name,
+            operator_id, operator_name, operated_at
         FROM training_ticket_history
         WHERE ticket_id = #{ticketId}
         ORDER BY operated_at ASC

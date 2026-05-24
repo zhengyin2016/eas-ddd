@@ -1,8 +1,7 @@
 package com.eas.trainingcontext.northbound.remote;
 
 import com.eas.dddcore.Resources;
-import com.eas.trainingcontext.domain.training.entity.Training;
-import com.eas.trainingcontext.domain.training.repository.TrainingRepository;
+import com.eas.trainingcontext.northbound.appservice.TrainingAppService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/trainings")
 public class TrainingResource {
 
-    private final TrainingRepository trainingRepository;
+    private final TrainingAppService trainingAppService;
 
-    public TrainingResource(TrainingRepository trainingRepository) {
-        this.trainingRepository = trainingRepository;
+    public TrainingResource(TrainingAppService trainingAppService) {
+        this.trainingAppService = trainingAppService;
     }
 
     @GetMapping("/{trainingId}")
-    public ResponseEntity findById(@PathVariable String trainingId) {
+    public ResponseEntity<?> findById(@PathVariable String trainingId) {
         return Resources.execute(() ->
-                trainingRepository.findById(trainingId), "查询培训");
+                trainingAppService.findById(trainingId), "查询培训");
     }
 }

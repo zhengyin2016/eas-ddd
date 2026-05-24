@@ -328,7 +328,14 @@ eas-ddd/                                    # 项目名称
         └── EasApplication.java
 ```
 
-### 4.2 关键设计约束
+### 4.2 命名空间说明
+
+本书使用的命名空间为 `eas.valueadded.trainingcontext`，其中 `valueadded` 表示业务价值层。本项目采用 `com.eas.trainingcontext`，遵循 Java 包命名的反域名惯例（reverse domain name convention）。两者在架构语义上等价，区别仅在于命名风格：
+
+- **书中命名**：`eas.valueadded.trainingcontext` — 强调业务价值层分类
+- **项目命名**：`com.eas.trainingcontext` — 遵循 Java 标准包命名规范
+
+### 4.3 关键设计约束
 
 1. **domain包按聚合划分**，而非按entity/valueobject/service分类
 2. **依赖方向从外向内**：northbound/southbound依赖domain，domain不依赖任何外层

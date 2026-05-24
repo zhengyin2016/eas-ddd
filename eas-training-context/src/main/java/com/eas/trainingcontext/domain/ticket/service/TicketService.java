@@ -10,6 +10,7 @@ import com.eas.trainingcontext.domain.ticket.entity.TicketException;
 import com.eas.trainingcontext.domain.ticket.repository.TicketRepository;
 import com.eas.trainingcontext.domain.ticket.valueobject.Nominator;
 import com.eas.trainingcontext.domain.ticket.valueobject.Nominee;
+import com.eas.trainingcontext.domain.tickethistory.entity.TicketHistory;
 import com.eas.trainingcontext.domain.tickethistory.repository.TicketHistoryRepository;
 import com.eas.trainingcontext.domain.training.entity.Training;
 import com.eas.trainingcontext.domain.training.repository.TrainingRepository;
@@ -25,12 +26,26 @@ import java.util.Optional;
  */
 public class TicketService {
 
-    private TicketRepository ticketRepository;
-    private TrainingRepository trainingRepository;
-    private CourseRepository courseRepository;
-    private LearningRepository learningRepository;
-    private CandidateRepository candidateRepository;
-    private TicketHistoryRepository ticketHistoryRepository;
+    private final TicketRepository ticketRepository;
+    private final TrainingRepository trainingRepository;
+    private final CourseRepository courseRepository;
+    private final LearningRepository learningRepository;
+    private final CandidateRepository candidateRepository;
+    private final TicketHistoryRepository ticketHistoryRepository;
+
+    public TicketService(TicketRepository ticketRepository,
+                         TrainingRepository trainingRepository,
+                         CourseRepository courseRepository,
+                         LearningRepository learningRepository,
+                         CandidateRepository candidateRepository,
+                         TicketHistoryRepository ticketHistoryRepository) {
+        this.ticketRepository = ticketRepository;
+        this.trainingRepository = trainingRepository;
+        this.courseRepository = courseRepository;
+        this.learningRepository = learningRepository;
+        this.candidateRepository = candidateRepository;
+        this.ticketHistoryRepository = ticketHistoryRepository;
+    }
 
     public void nominate(String trainingId, String nomineeEmployeeId, String nomineeName,
                          String nominatorEmployeeId, String nominatorName) {
@@ -53,8 +68,9 @@ public class TicketService {
         Nominee nominee = new Nominee(nomineeEmployeeId, nomineeName);
         Nominator nominator = new Nominator(nominatorEmployeeId, nominatorName);
 
-        ticket.nominate(nominee, nominator);
+        TicketHistory history = ticket.nominate(nominee, nominator);
 
+        ticketHistoryRepository.save(history);
         ticketRepository.save(ticket);
 
         List<Candidate> candidates = candidateRepository.findByTrainingId(trainingId);
@@ -64,29 +80,5 @@ public class TicketService {
                 break;
             }
         }
-    }
-
-    public void setTicketRepository(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
-    }
-
-    public void setTrainingRepository(TrainingRepository trainingRepository) {
-        this.trainingRepository = trainingRepository;
-    }
-
-    public void setCourseRepository(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
-    }
-
-    public void setLearningRepository(LearningRepository learningRepository) {
-        this.learningRepository = learningRepository;
-    }
-
-    public void setCandidateRepository(CandidateRepository candidateRepository) {
-        this.candidateRepository = candidateRepository;
-    }
-
-    public void setTicketHistoryRepository(TicketHistoryRepository ticketHistoryRepository) {
-        this.ticketHistoryRepository = ticketHistoryRepository;
     }
 }

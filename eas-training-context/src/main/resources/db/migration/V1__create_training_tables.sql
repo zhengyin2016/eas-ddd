@@ -60,16 +60,18 @@ CREATE TABLE IF NOT EXISTS training_ticket (
 -- 培训票历史表
 -- ============================================================
 CREATE TABLE IF NOT EXISTS training_ticket_history (
-    id              VARCHAR(64)  NOT NULL COMMENT '历史记录ID',
-    ticket_id       VARCHAR(64)  NOT NULL COMMENT '票ID',
-    training_id     VARCHAR(64)  NOT NULL COMMENT '培训ID',
-    operator_id     VARCHAR(64)  NOT NULL COMMENT '操作人ID',
-    operator_role   VARCHAR(32)  NOT NULL COMMENT '操作人角色：TRAINING_SPECIALIST/COORDINATOR/EMPLOYEE/SYSTEM',
-    operation       VARCHAR(64)  NOT NULL COMMENT '操作类型：ALLOCATE/NOMINATE/CONFIRM/CANCEL/EXPIRE/SHARE/VOID',
-    operated_at     DATETIME     NOT NULL COMMENT '操作时间',
+    id                  VARCHAR(64)  NOT NULL COMMENT '历史记录ID',
+    ticket_id           VARCHAR(64)  NOT NULL COMMENT '票ID',
+    operation_type      VARCHAR(32)  NOT NULL COMMENT '操作类型：NOMINATE/CONFIRM/DECLINE/ALLOCATE/CANCEL',
+    state_transit_from  VARCHAR(32)  NOT NULL COMMENT '状态迁移-起始状态',
+    state_transit_to    VARCHAR(32)  NOT NULL COMMENT '状态迁移-目标状态',
+    ticket_owner_id     VARCHAR(64)  NULL     COMMENT '票拥有者员工ID',
+    ticket_owner_name   VARCHAR(128) NULL     COMMENT '票拥有者姓名',
+    operator_id         VARCHAR(64)  NOT NULL COMMENT '操作人员工ID',
+    operator_name       VARCHAR(128) NOT NULL COMMENT '操作人姓名',
+    operated_at         DATETIME     NOT NULL COMMENT '操作时间',
     PRIMARY KEY (id),
-    INDEX idx_ticket_history_ticket_id (ticket_id),
-    INDEX idx_ticket_history_training_id (training_id)
+    INDEX idx_ticket_history_ticket_id (ticket_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='培训票历史';
 
 -- ============================================================
@@ -95,18 +97,12 @@ CREATE TABLE IF NOT EXISTS training_candidate (
 -- ============================================================
 CREATE TABLE IF NOT EXISTS training_learning (
     id              VARCHAR(64)  NOT NULL COMMENT '学习记录ID',
-    training_id     VARCHAR(64)  NOT NULL COMMENT '培训ID',
-    employee_id     VARCHAR(64)  NOT NULL COMMENT '员工ID（学员）',
-    employee_name   VARCHAR(128) NOT NULL COMMENT '员工姓名',
-    ticket_id       VARCHAR(64)  NOT NULL COMMENT '关联的培训票ID',
-    status          VARCHAR(32)  NOT NULL COMMENT '学习状态：ENROLLED/CHECKED_IN/COMPLETED/ABSENT/CANCELLED',
-    check_in_time   DATETIME     NULL     COMMENT '签到时间',
-    check_out_time  DATETIME     NULL     COMMENT '签退时间',
+    course_id       VARCHAR(64)  NOT NULL COMMENT '课程ID',
+    employee_id     VARCHAR(64)  NOT NULL COMMENT '员工ID',
     created_at      DATETIME     NOT NULL COMMENT '创建时间',
-    updated_at      DATETIME     NOT NULL COMMENT '更新时间',
     PRIMARY KEY (id),
-    UNIQUE INDEX uk_learning_training_employee (training_id, employee_id),
-    INDEX idx_learning_training_id (training_id),
+    UNIQUE INDEX uk_learning_course_employee (course_id, employee_id),
+    INDEX idx_learning_course_id (course_id),
     INDEX idx_learning_employee_id (employee_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='培训学习记录';
 

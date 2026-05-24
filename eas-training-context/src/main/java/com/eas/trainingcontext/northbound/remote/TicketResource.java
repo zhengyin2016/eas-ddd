@@ -1,6 +1,7 @@
 package com.eas.trainingcontext.northbound.remote;
 
 import com.eas.dddcore.Resources;
+import com.eas.dddcore.ResponseMessage;
 import com.eas.trainingcontext.message.NominationRequest;
 import com.eas.trainingcontext.message.NominationResponse;
 import com.eas.trainingcontext.northbound.appservice.NominationAppService;
@@ -24,7 +25,7 @@ public class TicketResource {
     }
 
     @PostMapping("/nominate")
-    public ResponseEntity nominate(@RequestBody NominationRequest request) {
+    public ResponseEntity<?> nominate(@RequestBody NominationRequest request) {
         return Resources.execute(() -> {
             NominationResponse response = nominationAppService.nominate(request);
             return ResponseEntity.ok(response);

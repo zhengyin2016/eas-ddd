@@ -42,7 +42,6 @@ public class TicketServiceTest {
 
     @BeforeEach
     public void setUp() {
-        ticketService = new TicketService();
         ticketRepository = mock(TicketRepository.class);
         trainingRepository = mock(TrainingRepository.class);
         courseRepository = mock(CourseRepository.class);
@@ -50,12 +49,8 @@ public class TicketServiceTest {
         candidateRepository = mock(CandidateRepository.class);
         ticketHistoryRepository = mock(TicketHistoryRepository.class);
 
-        ticketService.setTicketRepository(ticketRepository);
-        ticketService.setTrainingRepository(trainingRepository);
-        ticketService.setCourseRepository(courseRepository);
-        ticketService.setLearningRepository(learningRepository);
-        ticketService.setCandidateRepository(candidateRepository);
-        ticketService.setTicketHistoryRepository(ticketHistoryRepository);
+        ticketService = new TicketService(ticketRepository, trainingRepository,
+                courseRepository, learningRepository, candidateRepository, ticketHistoryRepository);
     }
 
     @Test
@@ -87,6 +82,7 @@ public class TicketServiceTest {
 
         ticketService.nominate("training-1", "emp-001", "张三", "emp-002", "李四");
 
+        verify(ticketHistoryRepository).save(any());
         verify(ticketRepository).save(ticket);
         verify(candidateRepository).remove("candidate-1");
     }

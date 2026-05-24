@@ -6,7 +6,7 @@
 
 ## 限界上下文划分（12个）
 
-### 核心域（Core Domain）- 8个限界上下文
+### 核心子领域（Core Subdomain）- 8个限界上下文
 | 上下文 | 模块名 | 职责 |
 |--------|--------|------|
 | 订单上下文 | eas-order-context | 订单管理 |
@@ -18,13 +18,13 @@
 | 培训上下文 | eas-training-context | 培训管理 |
 | 分析上下文 | eas-analytics-context | 数据分析 |
 
-### 支撑域（Supporting Domain）- 2个限界上下文
+### 支撑子领域（Supporting Subdomain）- 2个限界上下文
 | 上下文 | 模块名 | 职责 |
 |--------|--------|------|
 | 文件上下文 | eas-file-context | 文件存储与管理 |
 | OA协作上下文 | eas-oa-context | OA协作与消息队列 |
 
-### 通用域（Generic Domain）- 2个限界上下文
+### 通用子领域（Generic Subdomain）- 2个限界上下文
 | 上下文 | 模块名 | 职责 |
 |--------|--------|------|
 | 组织上下文 | eas-org-context | 组织架构管理 |

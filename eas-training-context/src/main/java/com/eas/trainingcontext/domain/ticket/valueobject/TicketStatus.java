@@ -6,8 +6,6 @@ public enum TicketStatus implements ValueObject {
     Available,
     WaitForConfirm,
     Confirmed,
-    WaitForAllocating,
-    Allocated,
     Declined,
     Cancelled
 }
