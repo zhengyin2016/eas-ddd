@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.pm.southbound.adapter.repository.AssignmentMapper">
+
+    <resultMap id="assignmentResultMap" type="com.eas.pm.southbound.adapter.repository.AssignmentDO">
+        <id property="id" column="id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="employeeId" column="employee_id"/>
+        <result property="role" column="role"/>
+        <result property="allocation" column="allocation"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="released" column="released"/>
+        <result property="releasedAt" column="released_at"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.eas.pm.domain.assignment.Assignment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO assignment (id, project_id, employee_id, role, allocation, start_date, end_date, released, released_at, version)
+        VALUES (#{id.value}, #{projectId}, #{employeeId}, #{role}, #{allocation}, #{startDate}, #{endDate}, #{released}, #{releasedAt}, #{version})
+    </insert>
+
+    <update id="update" parameterType="com.eas.pm.domain.assignment.Assignment">
+        UPDATE assignment
+        SET allocation = #{allocation},
+            released = #{released},
+            released_at = #{releasedAt},
+            version = version + 1
+        WHERE id = #{id.value} AND version = #{version}
+    </update>
+
+    <select id="findById" resultMap="assignmentResultMap">
+        SELECT * FROM assignment WHERE id = #{id}
+    </select>
+
+    <select id="findByProjectId" resultMap="assignmentResultMap">
+        SELECT * FROM assignment WHERE project_id = #{projectId}
+    </select>
+
+    <select id="findByEmployeeId" resultMap="assignmentResultMap">
+        SELECT * FROM assignment WHERE employee_id = #{employeeId}
+    </select>
+
+    <select id="findActiveByEmployeeIdAndDateRange" resultMap="assignmentResultMap">
+        SELECT * FROM assignment
+        WHERE employee_id = #{employeeId}
+          AND released = false
+          AND NOT (end_date &lt; #{startDate} OR start_date &gt; #{endDate})
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM assignment WHERE id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.pm.southbound.adapter.repository.ProjectMapper">
+
+    <resultMap id="projectResultMap" type="com.eas.pm.southbound.adapter.repository.ProjectDO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="contractId" column="contract_id"/>
+        <result property="pmId" column="pm_id"/>
+        <result property="status" column="status"/>
+        <result property="budget" column="budget"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.eas.pm.domain.project.Project" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO project (id, name, customer_id, contract_id, pm_id, status, budget, start_date, end_date, version)
+        VALUES (#{id.value}, #{name}, #{customerId}, #{contractId}, #{pmId}, #{status}, #{budget}, #{startDate}, #{endDate}, #{version})
+    </insert>
+
+    <update id="update" parameterType="com.eas.pm.domain.project.Project">
+        UPDATE project
+        SET name = #{name},
+            customer_id = #{customerId},
+            contract_id = #{contractId},
+            pm_id = #{pmId},
+            status = #{status},
+            budget = #{budget},
+            start_date = #{startDate},
+            end_date = #{endDate},
+            version = version + 1
+        WHERE id = #{id.value} AND version = #{version}
+    </update>
+
+    <select id="findById" resultMap="projectResultMap">
+        SELECT * FROM project WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="projectResultMap">
+        SELECT * FROM project ORDER BY create_time DESC
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM project WHERE id = #{id}
+    </delete>
+
+</mapper>
