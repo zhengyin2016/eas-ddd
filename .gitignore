@@ -1,0 +1,47 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# IDE - Eclipse
+.settings/
+.project
+.classpath
+.factorypath
+
+# IDE - VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Build
+build/
+bin/
+
+# Spring Boot
+spring-boot-devtools.properties
