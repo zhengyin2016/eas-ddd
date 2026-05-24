@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.hr.southbound.adapter.repository.TalentMapper">
+
+    <resultMap id="talentResultMap" type="com.eas.hr.southbound.adapter.repository.TalentMapper$TalentDO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="source" column="source" javaType="com.eas.hr.domain.talent.TalentSource"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="wechat" column="wechat"/>
+        <result property="status" column="status" javaType="com.eas.hr.domain.talent.TalentStatus"/>
+        <result property="notes" column="notes"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+</mapper>

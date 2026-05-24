@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.hr.southbound.adapter.repository.AttendanceMapper">
+
+    <resultMap id="attendanceResultMap" type="com.eas.hr.southbound.adapter.repository.AttendanceMapper$AttendanceDO">
+        <id property="id" column="id"/>
+        <result property="employeeId" column="employee_id"/>
+        <result property="date" column="date"/>
+        <result property="checkInTime" column="check_in_time"/>
+        <result property="checkOutTime" column="check_out_time"/>
+        <result property="status" column="status" javaType="com.eas.hr.domain.attendance.AttendanceStatus"/>
+        <result property="workHours" column="work_hours"/>
+        <result property="notes" column="notes"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+</mapper>
