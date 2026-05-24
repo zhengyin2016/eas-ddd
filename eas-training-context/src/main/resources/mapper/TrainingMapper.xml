@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.trainingcontext.southbound.port.repository.TrainingMapperPort">
+
+    <select id="findById" resultType="com.eas.trainingcontext.domain.training.entity.Training">
+        SELECT id, course_id
+        FROM training
+        WHERE id = #{id}
+    </select>
+
+    <insert id="save" parameterType="com.eas.trainingcontext.domain.training.entity.Training">
+        INSERT INTO training (id, course_id)
+        VALUES (#{id}, #{courseId})
+        ON DUPLICATE KEY UPDATE course_id = #{courseId}
+    </insert>
+
+</mapper>
