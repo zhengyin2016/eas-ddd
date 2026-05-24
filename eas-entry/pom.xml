@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.eas</groupId>
+        <artifactId>eas-ddd</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>eas-entry</artifactId>
+    <packaging>jar</packaging>
+    <description>EAS 系统主入口</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-order-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-contract-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-employee-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-talent-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-recruitment-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-project-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-training-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-analytics-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-file-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-oa-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-org-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eas</groupId>
+            <artifactId>eas-auth-context</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
