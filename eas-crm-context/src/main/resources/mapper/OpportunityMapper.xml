@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.crm.southbound.mapper.OpportunityMapper">
+
+    <resultMap id="opportunityResultMap" type="com.eas.crm.southbound.mapper.OpportunityMapper$OpportunityDO">
+        <id property="id" column="id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="title" column="title"/>
+        <result property="estimatedAmount" column="estimated_amount"/>
+        <result property="stage" column="stage"/>
+        <result property="probability" column="probability"/>
+        <result property="expectedCloseDate" column="expected_close_date"/>
+        <result property="ownerId" column="owner_id"/>
+        <result property="isWon" column="is_won"/>
+        <result property="isLost" column="is_lost"/>
+        <result property="lostReason" column="lost_reason"/>
+        <result property="actualAmount" column="actual_amount"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.eas.crm.domain.opportunity.Opportunity">
+        INSERT INTO opportunity (id, customer_id, title, estimated_amount, stage, probability,
+                               expected_close_date, owner_id, is_won, is_lost, lost_reason,
+                               actual_amount, created_at, updated_at)
+        VALUES (#{id}, #{customerId}, #{title}, #{estimatedAmount}, #{stage}, #{probability},
+                #{expectedCloseDate}, #{ownerId}, #{isWon}, #{isLost}, #{lostReason},
+                #{actualAmount}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <update id="update" parameterType="com.eas.crm.domain.opportunity.Opportunity">
+        UPDATE opportunity
+        SET stage = #{stage}, probability = #{probability}, expected_close_date = #{expectedCloseDate},
+            is_won = #{isWon}, is_lost = #{isLost}, lost_reason = #{lostReason},
+            actual_amount = #{actualAmount}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findById" resultMap="opportunityResultMap">
+        SELECT * FROM opportunity WHERE id = #{id}
+    </select>
+
+    <select id="findByCustomerId" resultMap="opportunityResultMap">
+        SELECT * FROM opportunity WHERE customer_id = #{customerId}
+    </select>
+
+    <select id="findByStage" resultMap="opportunityResultMap">
+        SELECT * FROM opportunity WHERE stage = #{stage}
+    </select>
+
+    <select id="findByOwnerId" resultMap="opportunityResultMap">
+        SELECT * FROM opportunity WHERE owner_id = #{ownerId}
+    </select>
+
+    <select id="findAll" resultMap="opportunityResultMap">
+        SELECT * FROM opportunity
+    </select>
+
+    <select id="existsById" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM opportunity WHERE id = #{id}
+    </select>
+
+</mapper>

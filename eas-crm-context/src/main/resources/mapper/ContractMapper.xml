@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.crm.southbound.mapper.ContractMapper">
+
+    <resultMap id="contractResultMap" type="com.eas.crm.southbound.mapper.ContractMapper$ContractDO">
+        <id property="id" column="id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="opportunityId" column="opportunity_id"/>
+        <result property="title" column="title"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+        <result property="signDate" column="sign_date"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="paidAmount" column="paid_amount"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="approverId" column="approver_id"/>
+        <result property="rejectReason" column="reject_reason"/>
+        <result property="terminateReason" column="terminate_reason"/>
+    </resultMap>
+
+    <resultMap id="paymentPlanResultMap" type="com.eas.crm.southbound.mapper.ContractMapper$PaymentPlanDO">
+        <id property="id" column="id"/>
+        <result property="contractId" column="contract_id"/>
+        <result property="amount" column="amount"/>
+        <result property="dueDate" column="due_date"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="paidAt" column="paid_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.eas.crm.domain.contract.Contract">
+        INSERT INTO contract (id, customer_id, opportunity_id, title, amount, status, sign_date,
+                             start_date, end_date, paid_amount, created_at, updated_at)
+        VALUES (#{id}, #{customerId}, #{opportunityId}, #{title}, #{amount}, #{status}, #{signDate},
+                #{startDate}, #{endDate}, #{paidAmount}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <update id="update" parameterType="com.eas.crm.domain.contract.Contract">
+        UPDATE contract
+        SET status = #{status}, paid_amount = #{paidAmount}, approver_id = #{approverId},
+            reject_reason = #{rejectReason}, terminate_reason = #{terminateReason},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findById" resultMap="contractResultMap">
+        SELECT * FROM contract WHERE id = #{id}
+    </select>
+
+    <select id="findByCustomerId" resultMap="contractResultMap">
+        SELECT * FROM contract WHERE customer_id = #{customerId}
+    </select>
+
+    <select id="findByStatus" resultMap="contractResultMap">
+        SELECT * FROM contract WHERE status = #{status}
+    </select>
+
+    <select id="findAll" resultMap="contractResultMap">
+        SELECT * FROM contract
+    </select>
+
+    <select id="existsById" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM contract WHERE id = #{id}
+    </select>
+
+    <insert id="insertPaymentPlan" parameterType="com.eas.crm.domain.contract.PaymentPlan">
+        INSERT INTO payment_plan (id, contract_id, amount, due_date, status, created_at, paid_at)
+        VALUES (#{id}, #{contractId}, #{amount}, #{dueDate}, #{status}, #{createdAt}, #{paidAt})
+    </insert>
+
+    <delete id="deletePaymentPlans">
+        DELETE FROM payment_plan WHERE contract_id = #{contractId}
+    </delete>
+
+    <select id="findPaymentPlansByContractId" resultMap="paymentPlanResultMap">
+        SELECT * FROM payment_plan WHERE contract_id = #{contractId}
+    </select>
+
+</mapper>

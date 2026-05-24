@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.crm.southbound.mapper.CustomerMapper">
+
+    <resultMap id="customerResultMap" type="com.eas.crm.southbound.mapper.CustomerMapper$CustomerDO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="industry" column="industry"/>
+        <result property="level" column="level"/>
+        <result property="source" column="source"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="address" column="address"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <resultMap id="contactResultMap" type="com.eas.crm.southbound.mapper.CustomerMapper$ContactDO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="position" column="position"/>
+        <result property="isPrimary" column="is_primary"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.eas.crm.domain.customer.Customer">
+        INSERT INTO customer (id, name, industry, level, source, contact_name, contact_phone, address, creator_id, created_at, updated_at)
+        VALUES (#{id}, #{name}, #{industry}, #{level}, #{source}, #{contactName}, #{contactPhone}, #{address}, #{creatorId}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <update id="update" parameterType="com.eas.crm.domain.customer.Customer">
+        UPDATE customer
+        SET name = #{name}, industry = #{industry}, level = #{level}, address = #{address}, updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findById" resultMap="customerResultMap">
+        SELECT * FROM customer WHERE id = #{id}
+    </select>
+
+    <select id="findByLevel" resultMap="customerResultMap">
+        SELECT * FROM customer WHERE level = #{level}
+    </select>
+
+    <select id="findByCreatorId" resultMap="customerResultMap">
+        SELECT * FROM customer WHERE creator_id = #{creatorId}
+    </select>
+
+    <select id="findAll" resultMap="customerResultMap">
+        SELECT * FROM customer
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM customer WHERE id = #{id}
+    </delete>
+
+    <select id="existsByName" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM customer WHERE name = #{name}
+    </select>
+
+    <select id="existsById" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM customer WHERE id = #{id}
+    </select>
+
+    <insert id="insertContact">
+        INSERT INTO contact (id, customer_id, name, phone, email, position, is_primary)
+        VALUES (#{contact.id}, #{customerId}, #{contact.name}, #{contact.phone}, #{contact.email}, #{contact.position}, #{contact.isPrimary})
+    </insert>
+
+    <delete id="deleteContacts">
+        DELETE FROM contact WHERE customer_id = #{customerId}
+    </delete>
+
+    <select id="findContactsByCustomerId" resultMap="contactResultMap">
+        SELECT * FROM contact WHERE customer_id = #{customerId}
+    </select>
+
+</mapper>

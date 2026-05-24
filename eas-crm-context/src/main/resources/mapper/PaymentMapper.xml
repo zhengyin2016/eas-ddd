@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eas.crm.southbound.mapper.PaymentMapper">
+
+    <resultMap id="paymentResultMap" type="com.eas.crm.southbound.mapper.PaymentMapper$PaymentDO">
+        <id property="id" column="id"/>
+        <result property="contractId" column="contract_id"/>
+        <result property="amount" column="amount"/>
+        <result property="paymentDate" column="payment_date"/>
+        <result property="paymentMethod" column="payment_method"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="confirmedAt" column="confirmed_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.eas.crm.domain.payment.Payment">
+        INSERT INTO payment (id, contract_id, amount, payment_date, payment_method, status, remark, created_at, confirmed_at)
+        VALUES (#{id}, #{contractId}, #{amount}, #{paymentDate}, #{paymentMethod}, #{status}, #{remark}, #{createdAt}, #{confirmedAt})
+    </insert>
+
+    <update id="update" parameterType="com.eas.crm.domain.payment.Payment">
+        UPDATE payment
+        SET status = #{status}, confirmed_at = #{confirmedAt}, remark = #{remark}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findById" resultMap="paymentResultMap">
+        SELECT * FROM payment WHERE id = #{id}
+    </select>
+
+    <select id="findByContractId" resultMap="paymentResultMap">
+        SELECT * FROM payment WHERE contract_id = #{contractId}
+    </select>
+
+    <select id="sumPaidAmountByContract" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(amount), 0) FROM payment WHERE contract_id = #{contractId} AND status = 'PAID'
+    </select>
+
+    <select id="findByStatus" resultMap="paymentResultMap">
+        SELECT * FROM payment WHERE status = #{status}
+    </select>
+
+    <select id="findAll" resultMap="paymentResultMap">
+        SELECT * FROM payment
+    </select>
+
+    <select id="existsById" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM payment WHERE id = #{id}
+    </select>
+
+</mapper>
